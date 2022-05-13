@@ -41,7 +41,7 @@ public class OperatorNotifierTest {
         String title = config.getConfigValue("title", "");
         String messageConfig = config.getConfigValue("message", "");
         Notifier notifier = new Notifier("http://localhost:8080");
-        BaseOperator op = new OperatorNotifier(notifier, title, messageConfig);
+        BaseOperator op = new OperatorNotifier(notifier, title, messageConfig, config.getUserId());
         op.configMessage(message);
 
         for (Object m : messages) {

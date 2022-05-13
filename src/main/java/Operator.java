@@ -22,14 +22,14 @@ import notifier.Notifier;
 
 public class Operator {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         Config config = ConfigProvider.getConfig();
 
         String title = config.getConfigValue("title", "");
         String message = config.getConfigValue("message", "");
         Notifier notifier = new Notifier(config.getConfigValue("notifier-url", "http://api.notifier:5000"));
 
-        BaseOperator op = new OperatorNotifier(notifier, title, message);
+        BaseOperator op = new OperatorNotifier(notifier, title, message, config.getUserId());
         Stream stream  = new Stream();
         stream.start(op);
     }

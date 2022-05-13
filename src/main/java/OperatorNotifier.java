@@ -22,7 +22,6 @@ import org.infai.ses.senergy.operators.BaseOperator;
 import org.infai.ses.senergy.operators.Helper;
 import org.infai.ses.senergy.operators.Message;
 
-import javax.management.DynamicMBean;
 import java.io.IOException;
 
 public class OperatorNotifier extends BaseOperator {
@@ -30,12 +29,12 @@ public class OperatorNotifier extends BaseOperator {
     private final String title, message, userId;
     private final boolean DEBUG;
 
-    public OperatorNotifier(Notifier notifier, String title, String message) {
+    public OperatorNotifier(Notifier notifier, String title, String message, String userId) {
         this.notifier = notifier;
         this.title = title;
         this.message = message;
         DEBUG = Boolean.parseBoolean(Helper.getEnv("DEBUG", "false"));
-        userId = Helper.getEnv("USER_ID", "");
+        this.userId = userId;
     }
 
     @Override
