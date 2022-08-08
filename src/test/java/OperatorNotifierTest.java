@@ -25,7 +25,6 @@ import org.infai.ses.senergy.testing.utils.JSONHelper;
 import org.infai.ses.senergy.utils.ConfigProvider;
 import org.json.JSONObject;
 import org.json.simple.JSONArray;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class OperatorNotifierTest {
@@ -40,7 +39,7 @@ public class OperatorNotifierTest {
         MessageModel model = new MessageModel();
         String title = config.getConfigValue("title", "");
         String messageConfig = config.getConfigValue("message", "");
-        Notifier notifier = new Notifier("http://localhost:8080");
+        Notifier notifier = new Notifier("http://localhost:5000");
         BaseOperator op = new OperatorNotifier(notifier, title, messageConfig, config.getUserId());
         op.configMessage(message);
 
@@ -60,7 +59,6 @@ public class OperatorNotifierTest {
     @Test
     public void test() throws Exception {
         JSONObject jsonConfig = new JSONObject(getConfig());
-        jsonConfig.put("config", new JSONObject("{\"title\":\"someTitle %s\",\"message\":\"just a msg\"}"));
         run(new Config(jsonConfig.toString()));
     }
 
@@ -79,7 +77,8 @@ public class OperatorNotifierTest {
                 "        }" +
                 "      ]\n" +
                 "    }\n" +
-                "  ]\n" +
+                "  ],\n" +
+                "\"config\": {\"title\":\"someTitle äöüß %s\",\"message\":\"just a msg\"}\n" +
                 "}";
     }
 }

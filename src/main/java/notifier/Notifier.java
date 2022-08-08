@@ -16,14 +16,17 @@
 package notifier;
 
 
+import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 public class Notifier {
     CloseableHttpClient httpClient;
@@ -45,8 +48,7 @@ public class Notifier {
 
     public void createNotification(Notification n) throws IOException {
         HttpPost request = new HttpPost(notifierUrl + "/notifications");
-        request.addHeader("content-type", "application/json");
-        StringEntity stringEntity = new StringEntity(n.toJSON());
+        HttpEntity stringEntity = new ByteArrayEntity(n.toJSON().getBytes(StandardCharsets.UTF_8), ContentType.APPLICATION_JSON);
         request.setEntity(stringEntity);
         httpClient.execute(request, responseHandler);
     }
