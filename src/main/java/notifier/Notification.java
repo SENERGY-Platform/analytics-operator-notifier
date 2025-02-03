@@ -35,7 +35,8 @@ public class Notification {
                 "\"isRead\":" + isRead + "," +
                 "\"title\":\"" + title + "\"," +
                 "\"message\":\"" + message + "\"," +
-                "\"userId\":\"" + userId + "\"" +
+                "\"userId\":\"" + userId + "\"," +
+                "\"topic\":\"analytics\"" + 
                 "}";
     }
 }
