@@ -24,10 +24,17 @@ import org.infai.ses.senergy.operators.Message;
 
 import java.io.IOException;
 
+import java.time.LocalDateTime;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+
 public class OperatorNotifier extends BaseOperator {
     private final Notifier notifier;
     private final String title, message, userId;
     private final boolean DEBUG;
+
+    private LocalDateTime lastNotification = LocalDateTime.now();
+    private String lastMessage = "";
 
     public OperatorNotifier(Notifier notifier, String title, String message, String userId) {
         this.notifier = notifier;
@@ -46,8 +53,14 @@ public class OperatorNotifier extends BaseOperator {
             if (DEBUG) {
                 System.out.println("Creating notification:\n\ttitle: " + fTitle + "\n\tmessage: " + fMessage);
             }
-            Notification n = new Notification(fTitle, fMessage, userId);
-            notifier.createNotification(n);
+            final LocalDateTime presentTime = LocalDateTime.now();
+            final Duration timeSinceLastNotification = Duration.between(presentTime, lastNotification).abs().get(ChronoUnit.SECONDS);
+            if (!in.equals(lastMessage) || timeSinceLastChange > 600) {
+                Notification n = new Notification(fTitle, fMessage, userId);
+                notifier.createNotification(n);
+                lastNotification = presentTime;
+            }
+            lastMessage = in;
         } catch (NoValueException e) {
             System.err.println("Error getting a value, skipping message....");
             e.printStackTrace();
