@@ -1,6 +1,5 @@
-FROM ghcr.io/senergy-platform/analytics-operator-lib:prod
-
 FROM maven:3.6-openjdk-11-slim as builder
+FROM ghcr.io/senergy-platform/analytics-operator-lib:prod
 ADD src /usr/src/app/src
 ADD pom.xml /usr/src/app
 WORKDIR /usr/src/app
