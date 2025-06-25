@@ -27,7 +27,7 @@ public class Operator {
 
         String title = config.getConfigValue("title", "");
         String message = config.getConfigValue("message", "");
-        int ignoreDuplicatesWithinSeconds = Intger.parseInt(config.getConfigValue("ignore_duplicates_within_seconds", 600));
+        int ignoreDuplicatesWithinSeconds = Integer.parseInt(config.getConfigValue("ignore_duplicates_within_seconds", 600));
         Notifier notifier = new Notifier(config.getConfigValue("notifier-url", "http://api.notifier:5000"));
 
         BaseOperator op = new OperatorNotifier(notifier, title, message, config.getUserId(), ignoreDuplicatesWithinSeconds);

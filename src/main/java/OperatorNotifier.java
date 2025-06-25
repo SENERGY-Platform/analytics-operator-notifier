@@ -34,8 +34,8 @@ public class OperatorNotifier extends BaseOperator {
     private final boolean DEBUG;
     private final int ignoreDuplicatesWithinSeconds;
 
-    private LocalDateTime lastNotification = LocalDateTime.now();
-    private String lastMessage = "";
+    private LocalDateTime lastNotification;
+    private Object lastMessage;
 
     public OperatorNotifier(Notifier notifier, String title, String message, String userId, int ignoreDuplicatesWithinSeconds) {
         this.notifier = notifier;
@@ -44,6 +44,8 @@ public class OperatorNotifier extends BaseOperator {
         DEBUG = Boolean.parseBoolean(Helper.getEnv("DEBUG", "false"));
         this.userId = userId;
         this.ignoreDuplicatesWithinSeconds = ignoreDuplicatesWithinSeconds;
+        this.lastNotification = LocalDateTime.now();
+        this.lastMessage = "";
     }
 
     @Override
@@ -56,8 +58,8 @@ public class OperatorNotifier extends BaseOperator {
                 System.out.println("Creating notification:\n\ttitle: " + fTitle + "\n\tmessage: " + fMessage);
             }
             final LocalDateTime presentTime = LocalDateTime.now();
-            final Duration timeSinceLastNotification = Duration.between(presentTime, lastNotification).abs().get(ChronoUnit.SECONDS);
-            if (!in.equals(lastMessage) || timeSinceLastChange > ignoreDuplicatesWithinSeconds) {
+            final double timeSinceLastNotification = Duration.between(presentTime, lastNotification).abs().get(ChronoUnit.SECONDS);
+            if (!in.equals(lastMessage) || timeSinceLastNotification > ignoreDuplicatesWithinSeconds) {
                 Notification n = new Notification(fTitle, fMessage, userId);
                 notifier.createNotification(n);
                 lastNotification = presentTime;

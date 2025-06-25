@@ -39,8 +39,9 @@ public class OperatorNotifierTest {
         MessageModel model = new MessageModel();
         String title = config.getConfigValue("title", "");
         String messageConfig = config.getConfigValue("message", "");
+        int ignoreDuplicatesWithinSeconds = Integer.parseInt(config.getConfigValue("ignore_duplicates_within_seconds", "5"));
         Notifier notifier = new Notifier("http://localhost:5000");
-        BaseOperator op = new OperatorNotifier(notifier, title, messageConfig, config.getUserId());
+        BaseOperator op = new OperatorNotifier(notifier, title, messageConfig, config.getUserId(), ignoreDuplicatesWithinSeconds);
         op.configMessage(message);
 
         for (Object m : messages) {
@@ -78,7 +79,7 @@ public class OperatorNotifierTest {
                 "      ]\n" +
                 "    }\n" +
                 "  ],\n" +
-                "\"config\": {\"title\":\"someTitle äöüß %s\",\"message\":\"just a msg\"}\n" +
+                "\"config\": {\"title\":\"someTitle äöüß %s\",\"message\":\"just a msg\",\"ignore_duplicates_within_seconds\":\"5\"}\n" +
                 "}";
     }
 }
