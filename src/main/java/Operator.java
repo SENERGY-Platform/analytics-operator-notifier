@@ -18,6 +18,7 @@ import org.infai.ses.senergy.operators.BaseOperator;
 import org.infai.ses.senergy.operators.Config;
 import org.infai.ses.senergy.operators.Stream;
 import org.infai.ses.senergy.utils.ConfigProvider;
+
 import notifier.Notifier;
 
 public class Operator {
@@ -27,7 +28,7 @@ public class Operator {
 
         String title = config.getConfigValue("title", "");
         String message = config.getConfigValue("message", "");
-        int ignoreDuplicatesWithinSeconds = Integer.parseInt(config.getConfigValue("ignore_duplicates_within_seconds", 600));
+        int ignoreDuplicatesWithinSeconds = Integer.parseInt(config.getConfigValue("ignore_duplicates_within_seconds", "600"));
         Notifier notifier = new Notifier(config.getConfigValue("notifier-url", "http://api.notifier:5000"));
 
         BaseOperator op = new OperatorNotifier(notifier, title, message, config.getUserId(), ignoreDuplicatesWithinSeconds);
